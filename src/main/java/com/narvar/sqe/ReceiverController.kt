@@ -1,7 +1,7 @@
 package com.narvar.sqe
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.*
 import java.io.File
 
@@ -9,16 +9,16 @@ import java.io.File
 @RequestMapping("/")
 open class ReceiverController {
 
-  @ResponseStatus(HttpStatus.OK)
+  @ResponseStatus(OK)
   @RequestMapping("")
   fun rootDirectory() = "Welcome to Receiver App"
 
-  @ResponseStatus(HttpStatus.OK)
+  @ResponseStatus(OK)
   @RequestMapping("health_check", method = arrayOf(RequestMethod.GET))
   fun healthCheck() = "OK"
 
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.POST))
+  @ResponseStatus(OK)
+  @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.PUT))
   fun receiveNumbers(@RequestBody body: NumbersHolder) {
     File("src/main/resources/numbers.json").writeText(
         text = jacksonObjectMapper()
@@ -26,5 +26,10 @@ open class ReceiverController {
             .writeValueAsString(body)
     )
   }
+
+  @ResponseStatus(OK)
+  @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.GET))
+  fun sendNumbers(): String =
+      File("src/main/resources/numbers.json").readText()
 }
 
