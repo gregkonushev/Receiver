@@ -10,6 +10,10 @@ import java.io.File
 open class ReceiverController {
 
   @ResponseStatus(HttpStatus.OK)
+  @RequestMapping("")
+  fun rootDirectory() = "Welcome to Receiver App"
+
+  @ResponseStatus(HttpStatus.OK)
   @RequestMapping("health_check", method = arrayOf(RequestMethod.GET))
   fun healthCheck() = "OK"
 
