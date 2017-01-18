@@ -5,13 +5,9 @@ import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.*
 import java.io.File
 
-
-
 @RestController
 @RequestMapping("/")
 open class ReceiverController {
-
-  val POST = arrayOf(RequestMethod.POST)
 
   @ResponseStatus(OK)
   @RequestMapping("")
