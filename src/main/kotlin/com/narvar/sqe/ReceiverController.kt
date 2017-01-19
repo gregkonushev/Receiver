@@ -15,7 +15,7 @@ open class ReceiverController {
 
   @ResponseStatus(OK)
   @RequestMapping("health_check", method = arrayOf(RequestMethod.GET))
-  fun healthCheck() = "OK"
+  fun healthCheck(): String = System.getenv("REDIS_URL")
 
   @ResponseStatus(OK)
   @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.PUT))
