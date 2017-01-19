@@ -40,7 +40,9 @@ dependencies {
 }
 
 processResources {
-	expand(project.properties)
+	filesMatching('application.properties') {
+		expand(project.properties)
+	}
 }
 
 task wrapper(type: Wrapper) {

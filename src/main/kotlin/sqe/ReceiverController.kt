@@ -1,4 +1,4 @@
-package com.narvar.sqe
+package sqe
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.http.HttpStatus.OK

@@ -1,4 +1,4 @@
-package com.narvar.sqe;
+package sqe;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
