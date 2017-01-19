@@ -32,12 +32,15 @@ repositories {
 	jcenter()
 }
 
-
 dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 	compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	testCompile 'junit:junit'
+}
+
+processResources {
+	expand(project.properties)
 }
 
 task wrapper(type: Wrapper) {
