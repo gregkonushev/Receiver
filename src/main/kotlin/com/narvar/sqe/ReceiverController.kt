@@ -1,6 +1,6 @@
 package com.narvar.sqe
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.*
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.*
 import java.io.File
@@ -15,7 +15,7 @@ open class ReceiverController {
 
   @ResponseStatus(OK)
   @RequestMapping("health_check", method = arrayOf(RequestMethod.GET))
-  fun healthCheck() = "OK"
+  fun healthCheck(): String = System.getenv("REDIS_URL")
 
   @ResponseStatus(OK)
   @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.PUT))
@@ -29,7 +29,9 @@ open class ReceiverController {
 
   @ResponseStatus(OK)
   @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.GET))
-  fun sendNumbers(): String =
-      File("src/main/resources/numbers.json").readText()
+  fun sendNumbers() =
+      jacksonObjectMapper()
+          .readValue<NumbersHolder>(File("src/main/resources/numbers.json")
+              .readText())
 }
 
