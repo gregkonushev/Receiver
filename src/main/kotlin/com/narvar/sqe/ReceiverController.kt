@@ -1,37 +1,35 @@
 package com.narvar.sqe
 
-import com.fasterxml.jackson.module.kotlin.*
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.*
-import java.io.File
 
 @RestController
-@RequestMapping("/")
 open class ReceiverController {
 
+  @Autowired
+  lateinit var repo: NumbersRepository
+
   @ResponseStatus(OK)
-  @RequestMapping("")
+  @RequestMapping("/")
   fun rootDirectory() = "Welcome to Receiver App"
 
   @ResponseStatus(OK)
-  @RequestMapping("health_check", method = arrayOf(RequestMethod.GET))
+  @RequestMapping("/health_check", method = arrayOf(RequestMethod.GET))
   fun healthCheck(): String = System.getenv("REDIS_URL")
 
   @ResponseStatus(OK)
-  @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.PUT))
-  fun receiveNumbers(@RequestBody body: NumbersHolder) {
-    File("src/main/resources/numbers.json").writeText(
-        text = jacksonObjectMapper()
-            .writerWithDefaultPrettyPrinter()
-            .writeValueAsString(body)
-    )
+  @RequestMapping("/tracking_numbers", method = arrayOf(RequestMethod.PUT))
+  fun receiveNumbers(@RequestBody body: Numbers): StandardResponse {
+    body.tracking_numbers.forEach {
+      repo.saveNumbers(it)
+    }
+    return StandardResponse(200, "values saved in redis")
   }
 
   @ResponseStatus(OK)
-  @RequestMapping("tracking_numbers", method = arrayOf(RequestMethod.GET))
-  fun sendNumbers() =
-      jacksonObjectMapper()
-          .readValue<NumbersHolder>(File("src/main/resources/numbers.json")
-              .readText())
+  @RequestMapping("/tracking_numbers", method = arrayOf(RequestMethod.GET))
+  fun getNumbers() = repo.getAllNumbers()
+
 }
 

@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
 open class MainApplication {
+
   companion object {
     @JvmStatic
     fun main(args: Array<String>) {
