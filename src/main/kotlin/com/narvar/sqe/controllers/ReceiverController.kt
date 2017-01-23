@@ -1,17 +1,13 @@
 package com.narvar.sqe.controllers
 
-import com.narvar.sqe.pojo.Numbers
-import com.narvar.sqe.pojo.NumbersRepository
-import com.narvar.sqe.pojo.StandardResponse
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.narvar.sqe.pojo.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.*
 
 @RestController
-open class ReceiverController {
-
-  @Autowired
-  lateinit var repo: NumbersRepository
+open class ReceiverController @Autowired constructor(var repo: NumbersRepository, var mapper: ObjectMapper) {
 
   @ResponseStatus(OK)
   @RequestMapping("/")
@@ -32,7 +28,9 @@ open class ReceiverController {
 
   @ResponseStatus(OK)
   @RequestMapping("/tracking_numbers", method = arrayOf(RequestMethod.GET))
-  fun getNumbers() = repo.getAllNumbers()
+  fun getNumbers(@RequestParam queryParameters: Map<String, String>) : TrackingNumbers {
+    return repo.getNumbersByCarrierAndStatus(mapper.convertValue(queryParameters, QueryParameters::class.java))
+  }
 
 }
 
