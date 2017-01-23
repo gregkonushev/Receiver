@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 open class NumbersRepositoryImpl
 @Autowired
-constructor(var redisTemplate: RedisTemplate<String, Any>, var mapper: ObjectMapper) : NumbersRepository {
+constructor(redisTemplate: RedisTemplate<String, Any>, var mapper: ObjectMapper) : NumbersRepository {
 
   private var valueOps: ValueOperations<String, Any> = redisTemplate.opsForValue()
 
