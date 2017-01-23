@@ -1,4 +1,4 @@
-package com.narvar.sqe
+package com.narvar.sqe.pojo
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -8,10 +8,11 @@ import org.springframework.stereotype.Repository
 import javax.annotation.PostConstruct
 
 @Repository
-open class NumbersRepositoryImpl @Autowired constructor(private var redisTemplate: RedisTemplate<String, Any>) : NumbersRepository {
+open class NumbersRepositoryImpl
+@Autowired
+constructor(private var redisTemplate: RedisTemplate<String, Any>) : NumbersRepository {
 
   private lateinit var valueOps: ValueOperations<String, Any>
-  private val KEY = "Numbers"
 
   @PostConstruct
   private fun initialize() {

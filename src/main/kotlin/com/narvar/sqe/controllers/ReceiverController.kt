@@ -1,5 +1,8 @@
-package com.narvar.sqe
+package com.narvar.sqe.controllers
 
+import com.narvar.sqe.pojo.Numbers
+import com.narvar.sqe.pojo.NumbersRepository
+import com.narvar.sqe.pojo.StandardResponse
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.bind.annotation.*
