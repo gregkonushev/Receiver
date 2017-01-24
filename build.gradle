@@ -11,6 +11,7 @@ buildscript {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 		classpath "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
+		classpath 'org.testng:testng:6.10'
 	}
 }
 
@@ -38,7 +39,9 @@ dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 	compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
 	compile 'org.springframework.boot:spring-boot-starter-web'
-	testCompile 'junit:junit'
+	compile 'org.springframework.boot:spring-boot-starter-redis'
+	compile 'org.testng:testng:6.10'
+
 }
 
 processResources {
