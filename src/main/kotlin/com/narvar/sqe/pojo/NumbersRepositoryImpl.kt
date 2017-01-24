@@ -10,26 +10,27 @@ import org.springframework.stereotype.Repository
 @Repository
 open class NumbersRepositoryImpl
 @Autowired
-constructor(redisTemplate: RedisTemplate<String, Any>, var mapper: ObjectMapper) : NumbersRepository {
+constructor(var redisTemplate: RedisTemplate<String, Any>, var mapper: ObjectMapper) : NumbersRepository {
 
   private var valueOps: ValueOperations<String, Any> = redisTemplate.opsForValue()
 
   override fun saveNumbers(numbers: TrackingNumbers) {
     with(numbers) {
-      valueOps.set("$carrier:$partner_carrier:$status", mapper.writeValueAsString(numbers.values))
+      valueOps.set(key, mapper.writeValueAsString(numbers.values))
     }
   }
 
   override fun getNumbersByCarrierAndStatus(parameters: QueryParameters): TrackingNumbers {
     with(parameters) {
       return TrackingNumbers(carrier, status, partner_carrier,
-          mapper.readValue<List<String>>(valueOps.get("$carrier:$partner_carrier:$status").toString())
+          mapper.readValue<List<String>>(valueOps.get(key).toString())
       )
     }
   }
 
-  override fun getAllNumbers() {
-
+  override fun getAllNumbers(): TrackingNumbers {
+    println(redisTemplate.keys("*"))
+    return TrackingNumbers("fedex", "in-transit", null, listOf("123123213"))
   }
 
 }
