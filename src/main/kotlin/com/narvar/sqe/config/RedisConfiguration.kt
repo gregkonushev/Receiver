@@ -1,5 +1,6 @@
 package com.narvar.sqe.config
 
+import com.narvar.sqe.config.RedisCredentials.hostName
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.RedisConnectionFactory
@@ -8,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import org.springframework.data.redis.serializer.GenericToStringSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import redis.clients.jedis.JedisPoolConfig
 
 @Configuration
 @EnableRedisRepositories
@@ -16,7 +18,7 @@ open class RedisConfiguration {
   @Bean
   open fun buildConnection(): RedisConnectionFactory =
       JedisConnectionFactory(
-          /*JedisPoolConfig()
+          JedisPoolConfig()
               .apply {
                 maxTotal = 10
                 maxIdle = 5
@@ -24,8 +26,12 @@ open class RedisConfiguration {
                 testOnBorrow = true
                 testOnReturn = true
                 testWhileIdle = true
-              }*/
-      )
+              }
+      ).apply {
+        hostName = RedisCredentials.hostName
+        port = RedisCredentials.port
+        password = RedisCredentials.password
+      }
 
   @Bean
   open fun redisTemplate(): RedisTemplate<String, Any> {

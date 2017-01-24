@@ -28,7 +28,7 @@ open class ReceiverController @Autowired constructor(var repo: NumbersRepository
 
   @ResponseStatus(OK)
   @RequestMapping("/tracking_numbers", method = arrayOf(RequestMethod.GET))
-  fun getNumbers(@RequestParam queryParameters: Map<String, String>?) : TrackingNumbers {
+  fun getNumbers(@RequestParam queryParameters: Map<String, String>?) : Numbers {
     if (queryParameters != null) {
       return repo.getAllNumbers()
     } else {
