@@ -15,7 +15,7 @@ open class ReceiverController @Autowired constructor(var repo: NumbersRepository
 
   @ResponseStatus(OK)
   @RequestMapping("/health_check", method = arrayOf(RequestMethod.GET))
-  fun healthCheck(): String = System.getenv("REDIS_URL")
+  fun healthCheck(): String = "OK"
 
   @ResponseStatus(OK)
   @RequestMapping("/tracking_numbers", method = arrayOf(RequestMethod.PUT))
@@ -29,7 +29,7 @@ open class ReceiverController @Autowired constructor(var repo: NumbersRepository
   @ResponseStatus(OK)
   @RequestMapping("/tracking_numbers", method = arrayOf(RequestMethod.GET))
   fun getNumbers(@RequestParam queryParameters: Map<String, String>?) : Numbers {
-    if (queryParameters != null) {
+    if (queryParameters?.isEmpty() as Boolean) {
       return repo.getAllNumbers()
     } else {
       return repo.getNumbersByCarrierAndStatus(mapper.convertValue(queryParameters, QueryParameters::class.java))
