@@ -25,7 +25,7 @@ open class ReceiverController @Autowired constructor(var repo: NumbersRepository
     body.tracking_numbers?.forEach {
       repo.saveNumbers(it)
     }
-    return StandardResponse(200, "values saved in redis", body.tracking_numbers)
+    return StandardResponse(200, "Values saved in redis", body.tracking_numbers)
   }
 
   @ResponseStatus(OK)
@@ -35,13 +35,13 @@ open class ReceiverController @Autowired constructor(var repo: NumbersRepository
       if (queryParameters?.isEmpty() as Boolean) {
         return ResponseEntity(StandardResponse(
             status_code = 200,
-            message = "OK",
+            message = "Looks like I have found something",
             tracking_numbers = repo.getAllNumbers()),
             OK)
       } else {
         return ResponseEntity(StandardResponse(
             status_code = 200,
-            message = "OK",
+            message = "Looks like I have found something",
             tracking_numbers = repo.getNumbersByParameters(mapper.convertValue(queryParameters, TrackingNumbers::class.java))),
             OK)
       }
