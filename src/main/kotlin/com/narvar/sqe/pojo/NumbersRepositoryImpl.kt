@@ -20,9 +20,9 @@ constructor(var redisTemplate: RedisTemplate<String, Any>, var mapper: ObjectMap
     }
   }
 
-  override fun getNumbersByCarrierAndStatus(parameters: QueryParameters): Numbers {
+  override fun getNumbersByParameters(parameters: TrackingNumbers): Numbers {
     with(parameters) {
-      return Numbers(tracking_numbers = mutableListOf(TrackingNumbers(carrier, status, partner_carrier, getListFromKey(key))))
+      return Numbers(tracking_numbers = mutableListOf(TrackingNumbers(carrier?.toLowerCase(), status?.toLowerCase(), partner_carrier?.toLowerCase(), signature, getListFromKey(key))))
     }
   }
 
@@ -30,9 +30,11 @@ constructor(var redisTemplate: RedisTemplate<String, Any>, var mapper: ObjectMap
     val numbers = Numbers(tracking_numbers = mutableListOf())
     redisTemplate.keys("*").forEach {
       numbers.tracking_numbers.add(
-          TrackingNumbers(status = it.getStatus(),
+          TrackingNumbers(
               carrier = it.getCarrier(),
               partner_carrier = it.getPartnerCarrier(),
+              status = it.getStatus(),
+              signature = it.getSignature(),
               values = getListFromKey(it)
           )
       )

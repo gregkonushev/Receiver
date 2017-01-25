@@ -32,7 +32,7 @@ open class ReceiverController @Autowired constructor(var repo: NumbersRepository
     if (queryParameters?.isEmpty() as Boolean) {
       return repo.getAllNumbers()
     } else {
-      return repo.getNumbersByCarrierAndStatus(mapper.convertValue(queryParameters, QueryParameters::class.java))
+      return repo.getNumbersByParameters(mapper.convertValue(queryParameters, TrackingNumbers::class.java))
     }
   }
 }
